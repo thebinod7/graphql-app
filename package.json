@@ -1,0 +1,7 @@
+{
+  "name": "graphql-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:thebinod7/graphql-app.git",
+  "license": "MIT"
+}
