@@ -32,9 +32,9 @@ module.exports = {
 
   createPost: async (args) => {
     try {
-      const { body } = args.post;
+      const { title } = args.post;
       const post = new Post({
-        body,
+        title,
       });
       const newPost = await post.save();
       return { ...newPost._doc, _id: newPost.id };

@@ -1,16 +1,13 @@
 const { buildSchema } = require("graphql");
 
 module.exports = buildSchema(`
-  """
-  A Post refers to available attributes for a Post
-  """
   type Post {
     _id: ID!
-    body: String!
+    title: String!
     createdAt: String!
   }
   input PostType {
-    body: String!
+    title: String!
   }
   type RootQuery {
     posts: [Post!]
@@ -19,7 +16,7 @@ module.exports = buildSchema(`
   type Mutation {
     createPost(post:PostType): Post,
     deletePost(_id: String): Post,
-    updatePost(_id: String, body: String): String
+    updatePost(_id: String, title: String): String
   }
   schema {
     query: RootQuery
