@@ -15,7 +15,7 @@ app.use(
   graphqlHTTP({
     schema: graphQlSchema,
     rootValue: graphQlResolvers,
-    graphiql: true,
+    graphiql: true, // TODO: Enable only in dev mode
   })
 );
 
