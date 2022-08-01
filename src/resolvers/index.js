@@ -1,66 +1,51 @@
-//./src/resolvers/index.js
-const Post = require("../models/post");
+const ClientsModel = require("../models/clients");
 
 module.exports = {
-  posts: async () => {
+  listClients: async () => {
     try {
-      const postsFetched = await Post.find();
-      return postsFetched.map((post) => {
-        return {
-          ...post._doc,
-          _id: post.id,
-          createdAt: new Date(post._doc.createdAt).toISOString(),
-        };
-      });
+      return ClientsModel.find();
+      // return postsFetched.map((post) => {
+      //   return {
+      //     ...post._doc,
+      //     _id: post.id,
+      //     createdAt: new Date(post._doc.createdAt).toISOString(),
+      //   };
+      // });
     } catch (error) {
       throw error;
     }
   },
 
-  post: async (_id) => {
+  getClient: async (_id) => {
     try {
-      const postFetched = await Post.findById(_id);
-      return {
-        ...postFetched._doc,
-        _id: postFetched.id,
-        createdAt: new Date(postFetched._doc.createdAt).toISOString(),
-      };
+      return ClientsModel.findById(_id);
     } catch (error) {
       throw error;
     }
   },
 
-  createPost: async (args) => {
+  createClient: async (args) => {
     try {
-      const { title } = args.post;
-      const post = new Post({
-        title,
-      });
-      const newPost = await post.save();
-      return { ...newPost._doc, _id: newPost.id };
+      const { name, email, phone } = args;
+      return ClientsModel.create({ name, email, phone });
     } catch (error) {
       throw error;
     }
   },
 
-  deletePost: async (id) => {
+  deleteClient: async (id) => {
     try {
-      const deletedPost = await Post.findByIdAndDelete(id);
-      return {
-        ...deletedPost._doc,
-        _id: deletedPost.id,
-        createdAt: new Date(deletedPost._doc.createdAt).toISOString(),
-      };
+      return ClientsModel.findByIdAndDelete(id);
     } catch (error) {
       throw error;
     }
   },
 
-  updatePost: async (args) => {
+  updateClient: async (args) => {
     try {
       const { _id, body } = args;
-      const updatedPost = await Post.findByIdAndUpdate(_id, { body: body });
-      return `Post ${updatedPost.id} updated Successfully!!!`;
+      const updated = await ClientsModel.findByIdAndUpdate(_id, { body: body });
+      return `Post ${updated.id} updated Successfully!!!`;
     } catch (error) {
       throw error;
     }
