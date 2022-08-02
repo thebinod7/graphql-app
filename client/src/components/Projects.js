@@ -15,7 +15,7 @@ export default function Projects() {
     <>
       {data.listProjects.length > 0
         ? data.listProjects.map((d) => {
-            return <ProjectCard project={d} />;
+            return <ProjectCard key={d.id} project={d} />;
           })
         : "No projects found!"}
     </>

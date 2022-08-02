@@ -1,8 +1,10 @@
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Header from "./components/Header";
-import Clients from "./components/Clients";
-import Projects from "./components/Projects";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
+import ProjectDetails from "./pages/ProjectDetails";
 
 const API_SERVER = process.env.REACT_APP_API_SERVER;
 
@@ -15,12 +17,16 @@ function App() {
   return (
     <>
       <ApolloProvider client={apollo_client}>
-        <Header />
-        <div className="container">
-          <Projects />
-          <hr />
-          <Clients />
-        </div>
+        <Router>
+          <Header />
+          <div className="container">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/projects/:id" element={<ProjectDetails />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
+        </Router>
       </ApolloProvider>
     </>
   );
