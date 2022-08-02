@@ -7,7 +7,6 @@ const {
   GraphQLNonNull,
   GraphQLEnumType,
 } = require("graphql");
-const { projects } = require("./sampleData");
 
 const {
   getClient,
@@ -21,6 +20,7 @@ const {
   listProjects,
   deleteProject,
   updateProject,
+  getProject,
 } = require("../resolvers/project");
 
 // Client type blueprint
@@ -77,7 +77,7 @@ const RootQuery = new GraphQLObjectType({
       type: ProjectType,
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
-        return projects.find((f) => f.id === args.id);
+        return getProject(args.id);
       },
     },
   },
