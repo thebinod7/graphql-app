@@ -4,13 +4,6 @@ module.exports = {
   listClients: async () => {
     try {
       return ClientsModel.find();
-      // return postsFetched.map((post) => {
-      //   return {
-      //     ...post._doc,
-      //     _id: post.id,
-      //     createdAt: new Date(post._doc.createdAt).toISOString(),
-      //   };
-      // });
     } catch (error) {
       throw error;
     }
@@ -45,7 +38,7 @@ module.exports = {
     try {
       const { _id, body } = args;
       const updated = await ClientsModel.findByIdAndUpdate(_id, { body: body });
-      return `Post ${updated.id} updated Successfully!!!`;
+      return `Data ${updated.id} updated Successfully!!!`;
     } catch (error) {
       throw error;
     }

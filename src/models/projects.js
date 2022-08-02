@@ -8,7 +8,7 @@ const schema = new Schema(
     status: String,
     client: { type: mongoose.Schema.Types.ObjectId, ref: "Client" },
   },
-  { collection: "clients", timestamps: true }
+  { collection: "projects", timestamps: true }
 );
 
-module.exports = mongoose.model("Client", schema);
+module.exports = mongoose.model("Project", schema);

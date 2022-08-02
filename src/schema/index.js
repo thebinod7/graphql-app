@@ -5,8 +5,9 @@ const {
   GraphQLSchema,
   GraphQLList,
   GraphQLNonNull,
+  GraphQLEnumType,
 } = require("graphql");
-const { clients, projects } = require("./sampleData");
+const { projects } = require("./sampleData");
 
 const {
   getClient,
@@ -14,6 +15,13 @@ const {
   createClient,
   deleteClient,
 } = require("../resolvers");
+
+const {
+  createProject,
+  listProjects,
+  deleteProject,
+  updateProject,
+} = require("../resolvers/project");
 
 // Client type blueprint
 const ClientType = new GraphQLObjectType({
@@ -26,6 +34,7 @@ const ClientType = new GraphQLObjectType({
   }),
 });
 
+// Project type blueprint
 const ProjectType = new GraphQLObjectType({
   name: "Project",
   fields: () => ({
@@ -35,7 +44,7 @@ const ProjectType = new GraphQLObjectType({
     client: {
       type: ClientType,
       resolve(parent, args) {
-        return "abc"; // getClient(parent.client)
+        return getClient(parent.client);
       },
     },
   }),
@@ -56,6 +65,12 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(ClientType),
       resolve(parent, args) {
         return listClients();
+      },
+    },
+    listProjects: {
+      type: new GraphQLList(ProjectType),
+      resolve(parent, args) {
+        return listProjects();
       },
     },
     getProject: {
@@ -92,7 +107,58 @@ const mutation = new GraphQLObjectType({
         return deleteClient(args.id);
       },
     },
-    updateClient: {},
+    addProject: {
+      type: ProjectType,
+      args: {
+        name: { type: new GraphQLNonNull(GraphQLString) },
+        status: {
+          type: new GraphQLEnumType({
+            name: "ProjectStatus",
+            values: {
+              not_started: { value: "Not Started" },
+              progress: { value: "In Progress" },
+              completed: { value: "Completed" },
+            },
+          }),
+          defaultValue: "Not Started",
+        },
+        client: { type: new GraphQLNonNull(GraphQLID) },
+      },
+      resolve(parent, args) {
+        return createProject(args);
+      },
+    },
+    deleteProject: {
+      type: ProjectType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+      },
+      resolve(parent, args) {
+        return deleteProject(args.id);
+      },
+    },
+    updateProject: {
+      type: ProjectType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        name: { type: GraphQLString },
+        status: {
+          type: new GraphQLEnumType({
+            name: "ProjectUpdateStatus",
+            values: {
+              not_started: { value: "Not Started" },
+              progress: { value: "In Progress" },
+              completed: { value: "Completed" },
+            },
+          }),
+          defaultValue: "Not Started",
+        },
+        client: { type: GraphQLID },
+      },
+      resolve(parent, args) {
+        return updateProject(args);
+      },
+    },
   },
 });
 
