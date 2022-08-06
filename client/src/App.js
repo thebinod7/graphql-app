@@ -6,6 +6,8 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import ProjectDetails from "./pages/ProjectDetails";
 
+import Table from "./components/Table";
+
 const API_SERVER = process.env.REACT_APP_API_SERVER;
 
 const apollo_client = new ApolloClient({
@@ -22,6 +24,7 @@ function App() {
           <div className="container">
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/table" element={<Table />} />
               <Route path="/projects/:id" element={<ProjectDetails />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
